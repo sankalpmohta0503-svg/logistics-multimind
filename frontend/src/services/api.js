@@ -75,8 +75,12 @@ export const api = {
     return fetchAPI(`/alerts${query ? `?${query}` : ''}`);
   },
   resolveAlert: (id) => fetchAPI(`/alerts/${id}/resolve`, { method: 'PATCH' }),
-  getRecommendations: () => fetchAPI('/alerts/recommendations'),
+  getRecommendations: (params = {}) => {
+    const query = new URLSearchParams(params).toString();
+    return fetchAPI(`/alerts/recommendations${query ? `?${query}` : ''}`);
+  },
   applyRecommendation: (id) => fetchAPI(`/alerts/recommendations/${id}/apply`, { method: 'POST' }),
+  resetAlertsAndRecommendations: () => fetchAPI('/alerts/reset', { method: 'POST' }),
   
   // Reports
   getExecutiveReport: () => fetchAPI('/reports/executive'),

@@ -50,18 +50,38 @@ export default function(db) {
   // Get recommendations (AI actions)
   router.get('/recommendations', (req, res) => {
     try {
-      const recommendations = db.prepare(`
-        SELECT * FROM recommendations 
-        WHERE applied = 0 
-        ORDER BY 
-          CASE priority 
-            WHEN 'critical' THEN 1 
-            WHEN 'high' THEN 2 
-            WHEN 'medium' THEN 3 
-            ELSE 4 
-          END,
-          estimated_savings DESC
-      `).all();
+      const { include_applied, status } = req.query;
+      let query = 'SELECT * FROM recommendations';
+      
+      if (include_applied !== 'true' && status !== 'all') {
+        query += ' WHERE applied = 0';
+      }
+      
+      query += ` ORDER BY 
+        CASE priority 
+          WHEN 'critical' THEN 1 
+          WHEN 'high' THEN 2 
+          WHEN 'medium' THEN 3 
+          ELSE 4 
+        END,
+        estimated_savings DESC`;
+
+      let recommendations = db.prepare(query).all();
+
+      // If no pending recommendations found and no strict filter, return all so UI can display applied status
+      if (recommendations.length === 0 && include_applied !== 'false' && status !== 'pending') {
+        recommendations = db.prepare(`
+          SELECT * FROM recommendations 
+          ORDER BY 
+            CASE priority 
+              WHEN 'critical' THEN 1 
+              WHEN 'high' THEN 2 
+              WHEN 'medium' THEN 3 
+              ELSE 4 
+            END,
+            estimated_savings DESC
+        `).all();
+      }
 
       res.json(recommendations);
     } catch (error) {
@@ -85,9 +105,6 @@ export default function(db) {
         WHERE id = ?
       `).run(req.params.id);
 
-      // In a real system, this would trigger actual changes
-      // For demo, we just mark it as applied
-
       res.json({ 
         success: true, 
         message: 'Recommendation applied successfully',
@@ -96,6 +113,18 @@ export default function(db) {
     } catch (error) {
       console.error('Apply recommendation error:', error);
       res.status(500).json({ error: 'Failed to apply recommendation' });
+    }
+  });
+
+  // Reset alerts & recommendations for demo walkthroughs
+  router.post('/reset', (req, res) => {
+    try {
+      db.prepare('UPDATE recommendations SET applied = 0, applied_at = NULL').run();
+      db.prepare('UPDATE alerts SET resolved = 0').run();
+      res.json({ success: true, message: 'All alerts and recommendations have been reset to active state' });
+    } catch (error) {
+      console.error('Reset error:', error);
+      res.status(500).json({ error: 'Failed to reset alerts and recommendations' });
     }
   });
 

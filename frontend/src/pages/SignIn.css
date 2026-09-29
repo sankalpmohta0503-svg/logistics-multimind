@@ -1,0 +1,222 @@
+/* SC-LogiX Modern Control Tower - Unified Auth Styling */
+.signin-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F4F7FB;
+  background-image: 
+    radial-gradient(at 15% 15%, rgba(37, 99, 235, 0.08) 0px, transparent 50%),
+    radial-gradient(at 85% 85%, rgba(99, 102, 241, 0.06) 0px, transparent 50%),
+    radial-gradient(rgba(148, 163, 184, 0.15) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 24px 24px;
+  padding: 1.5rem;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  color: #0F172A;
+}
+
+/* Elevated White Auth Card */
+.signin-card {
+  background-color: #FFFFFF;
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 20px 25px -5px rgba(15, 23, 42, 0.03);
+  padding: 2.25rem;
+  max-width: 440px;
+  width: 100%;
+  border: 1px solid #E2E8F0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.signin-card:hover {
+  border-color: #BFDBFE;
+  box-shadow: 0 20px 35px -8px rgba(37, 99, 235, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.03);
+}
+
+.signin-title {
+  font-size: 1.625rem;
+  font-weight: 800;
+  color: #0F172A;
+  text-align: center;
+  margin-bottom: 0.375rem;
+  letter-spacing: -0.025em;
+}
+
+.signin-subtitle {
+  font-size: 0.875rem;
+  color: #64748B;
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+/* Form and Inputs */
+.signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+.signin-input {
+  width: 100%;
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 0.75rem;
+  padding: 0.8125rem 1.125rem;
+  color: #0F172A;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.signin-input::placeholder {
+  color: #94A3B8;
+  font-weight: 400;
+}
+
+.signin-input:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  background-color: #FFFFFF;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.eye-icon {
+  height: 1.125rem;
+  width: 1.125rem;
+  color: #94A3B8;
+  transition: color 0.2s;
+}
+
+.password-toggle-btn:hover .eye-icon {
+  color: #2563EB;
+}
+
+/* Primary Submit Button - Cobalt Blue */
+.signin-btn-primary {
+  width: 100%;
+  background: #2563EB;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  padding: 0.875rem 0;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.signin-btn-primary:hover {
+  background: #1D4ED8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+}
+
+.signin-btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* Options row */
+.options-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8125rem;
+  color: #64748B;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+}
+
+.form-checkbox {
+  border-radius: 0.25rem;
+  background-color: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  accent-color: #2563EB;
+  width: 1rem;
+  height: 1rem;
+}
+
+.forgot-password-link {
+  color: #2563EB;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.forgot-password-link:hover {
+  color: #1D4ED8;
+  text-decoration: underline;
+}
+
+/* Divider */
+.divider-container {
+  display: flex;
+  align-items: center;
+  margin: 0.25rem 0;
+}
+
+.divider-line {
+  flex-grow: 1;
+  border: none;
+  border-top: 1px solid #E2E8F0;
+}
+
+.divider-text {
+  padding: 0 0.875rem;
+  color: #94A3B8;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+/* Social & Demo Buttons */
+.social-buttons-container {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.social-btn {
+  width: 100%;
+  background-color: #FFFFFF;
+  color: #334155;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  padding: 0.6875rem 0;
+  border: 1px solid #E2E8F0;
+  border-radius: 0.625rem;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition: all 0.2s;
+}
+
+.social-btn:hover {
+  background-color: #F8FAFC;
+  border-color: #CBD5E1;
+  color: #0F172A;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.08);
+}

@@ -1,0 +1,10 @@
+/* Rajdhani is a condensed, technical/industrial typeface that reads like control-panel
+   signage — used here for the SC-LogiX wordmark to give it a control-hub identity distinct
+   from softer fintech branding. */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap');
+
+.font-scLogix {
+  font-family: 'Rajdhani', 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}

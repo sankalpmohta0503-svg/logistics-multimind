@@ -1,4 +1,4 @@
-import { AlertTriangle, AlertCircle, Info, CheckCircle, ArrowRight } from 'lucide-react';
+import { AlertTriangle, AlertCircle, Info, CheckCircle, ArrowRight, Zap, Clock, DollarSign, ShieldAlert, Sparkles, Loader2 } from 'lucide-react';
 
 export default function AIDecisionCard({ 
   severity = 'medium', 
@@ -8,36 +8,37 @@ export default function AIDecisionCard({
   recommendation, 
   impact, 
   onViewAnalysis, 
-  onApply 
+  onApply,
+  isApplying = false
 }) {
   const severityConfig = {
     critical: {
       icon: AlertTriangle,
-      bgColor: 'bg-danger-50',
-      borderColor: 'border-danger-200',
-      iconColor: 'text-danger-600',
-      badgeColor: 'badge-danger'
+      badgeText: 'Critical Priority',
+      badgeClass: 'bg-rose-50 text-rose-700 border border-rose-200/60',
+      iconBoxClass: 'bg-rose-50 text-rose-600 border border-rose-100',
+      leftBar: 'border-l-rose-500',
     },
     high: {
       icon: AlertCircle,
-      bgColor: 'bg-warning-50',
-      borderColor: 'border-warning-200',
-      iconColor: 'text-warning-600',
-      badgeColor: 'badge-warning'
+      badgeText: 'High Priority',
+      badgeClass: 'bg-amber-50 text-amber-700 border border-amber-200/60',
+      iconBoxClass: 'bg-amber-50 text-amber-600 border border-amber-100',
+      leftBar: 'border-l-amber-500',
     },
     medium: {
       icon: Info,
-      bgColor: 'bg-primary-50',
-      borderColor: 'border-primary-200',
-      iconColor: 'text-primary-600',
-      badgeColor: 'badge-info'
+      badgeText: 'Medium Priority',
+      badgeClass: 'bg-blue-50 text-blue-700 border border-blue-200/60',
+      iconBoxClass: 'bg-blue-50 text-blue-600 border border-blue-100',
+      leftBar: 'border-l-blue-500',
     },
     low: {
       icon: CheckCircle,
-      bgColor: 'bg-success-50',
-      borderColor: 'border-success-200',
-      iconColor: 'text-success-600',
-      badgeColor: 'badge-success'
+      badgeText: 'Low Priority',
+      badgeClass: 'bg-emerald-50 text-emerald-700 border border-emerald-200/60',
+      iconBoxClass: 'bg-emerald-50 text-emerald-600 border border-emerald-100',
+      leftBar: 'border-l-emerald-500',
     }
   };
 
@@ -45,29 +46,31 @@ export default function AIDecisionCard({
   const Icon = config.icon;
 
   return (
-    <div className={`card border-l-4 ${config.borderColor} p-5`}>
-      <div className="flex items-start">
-        <div className={`p-2 rounded-lg ${config.bgColor} ${config.iconColor}`}>
+    <div className={`card p-5 border-l-4 ${config.leftBar} hover:shadow-md transition-all duration-300`}>
+      <div className="flex items-start gap-4">
+        <div className={`p-3 rounded-xl shrink-0 ${config.iconBoxClass}`}>
           <Icon className="h-5 w-5" />
         </div>
         
-        <div className="ml-4 flex-1">
-          <div className="flex items-start justify-between">
-            <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-            <span className={`badge ${config.badgeColor} uppercase`}>{severity}</span>
+        <div className="flex-1 min-w-0">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h3 className="text-base font-bold text-slate-900 tracking-tight">{title}</h3>
+            <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${config.badgeClass}`}>
+              {config.badgeText}
+            </span>
           </div>
           
           {description && (
-            <p className="mt-2 text-sm text-gray-600">{description}</p>
+            <p className="mt-1.5 text-sm text-slate-600 leading-relaxed">{description}</p>
           )}
 
           {reason && reason.length > 0 && (
-            <div className="mt-4">
-              <p className="text-sm font-medium text-gray-700">Why?</p>
-              <ul className="mt-2 space-y-1">
+            <div className="mt-3.5 rounded-xl bg-slate-50/80 p-3 border border-slate-100">
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Root Cause / Factors</p>
+              <ul className="mt-1.5 space-y-1">
                 {reason.map((item, index) => (
-                  <li key={index} className="text-sm text-gray-600 flex items-start">
-                    <span className="mr-2">•</span>
+                  <li key={index} className="text-xs text-slate-600 flex items-start">
+                    <span className="mr-1.5 text-slate-400 font-bold">•</span>
                     {item}
                   </li>
                 ))}
@@ -76,51 +79,80 @@ export default function AIDecisionCard({
           )}
 
           {recommendation && (
-            <div className="mt-4 p-3 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-200">
-              <p className="text-sm font-medium text-purple-900">AI Recommendation</p>
-              <p className="mt-1 text-sm text-purple-700">{recommendation}</p>
+            <div className="mt-3.5 p-3.5 bg-gradient-to-r from-blue-50/80 to-indigo-50/80 rounded-xl border border-blue-100 flex items-start gap-2.5">
+              <Sparkles className="h-4 w-4 text-blue-600 mt-0.5 shrink-0" />
+              <div>
+                <p className="text-xs font-bold text-blue-900 uppercase tracking-wider">AI Suggested Action</p>
+                <p className="mt-0.5 text-xs font-medium text-blue-800 leading-relaxed">{recommendation}</p>
+              </div>
             </div>
           )}
 
           {impact && (
-            <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               {impact.cost && (
-                <div className="bg-success-50 rounded-lg p-3 border border-success-200">
-                  <p className="text-xs font-medium text-success-700">Cost Savings</p>
-                  <p className="mt-1 text-lg font-bold text-success-900">{impact.cost}</p>
+                <div className="bg-emerald-50/60 rounded-xl p-2.5 border border-emerald-100">
+                  <div className="flex items-center text-[11px] font-semibold text-emerald-700">
+                    <DollarSign className="h-3.5 w-3.5 mr-0.5" />
+                    Est. Savings
+                  </div>
+                  <p className="mt-0.5 text-base font-bold text-emerald-900">{impact.cost}</p>
                 </div>
               )}
               {impact.time && (
-                <div className="bg-primary-50 rounded-lg p-3 border border-primary-200">
-                  <p className="text-xs font-medium text-primary-700">Time Saved</p>
-                  <p className="mt-1 text-lg font-bold text-primary-900">{impact.time}</p>
+                <div className="bg-blue-50/60 rounded-xl p-2.5 border border-blue-100">
+                  <div className="flex items-center text-[11px] font-semibold text-blue-700">
+                    <Clock className="h-3.5 w-3.5 mr-0.5" />
+                    Time Saved
+                  </div>
+                  <p className="mt-0.5 text-base font-bold text-blue-900">{impact.time}</p>
                 </div>
               )}
               {impact.risk && (
-                <div className="bg-warning-50 rounded-lg p-3 border border-warning-200">
-                  <p className="text-xs font-medium text-warning-700">Risk Reduction</p>
-                  <p className="mt-1 text-lg font-bold text-warning-900">{impact.risk}</p>
+                <div className="bg-amber-50/60 rounded-xl p-2.5 border border-amber-100">
+                  <div className="flex items-center text-[11px] font-semibold text-amber-700">
+                    <ShieldAlert className="h-3.5 w-3.5 mr-0.5" />
+                    Risk Reduction
+                  </div>
+                  <p className="mt-0.5 text-base font-bold text-amber-900">{impact.risk}</p>
                 </div>
               )}
               {impact.efficiency && (
-                <div className="bg-purple-50 rounded-lg p-3 border border-purple-200">
-                  <p className="text-xs font-medium text-purple-700">Efficiency Gain</p>
-                  <p className="mt-1 text-lg font-bold text-purple-900">{impact.efficiency}</p>
+                <div className="bg-purple-50/60 rounded-xl p-2.5 border border-purple-100">
+                  <div className="flex items-center text-[11px] font-semibold text-purple-700">
+                    <Zap className="h-3.5 w-3.5 mr-0.5" />
+                    Efficiency
+                  </div>
+                  <p className="mt-0.5 text-base font-bold text-purple-900">{impact.efficiency}</p>
                 </div>
               )}
             </div>
           )}
 
-          <div className="mt-4 flex space-x-3">
+          <div className="mt-4 flex flex-wrap items-center gap-3 pt-2">
             {onApply && (
-              <button onClick={onApply} className="btn btn-primary">
-                Apply Recommendation
+              <button 
+                onClick={onApply} 
+                disabled={isApplying}
+                className="btn btn-primary inline-flex items-center text-xs py-2 px-4 shadow-sm"
+              >
+                {isApplying ? (
+                  <>
+                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                    Applying...
+                  </>
+                ) : (
+                  <>
+                    <Zap className="mr-1.5 h-3.5 w-3.5 text-amber-300" />
+                    Apply Recommendation
+                  </>
+                )}
               </button>
             )}
             {onViewAnalysis && (
-              <button onClick={onViewAnalysis} className="btn btn-secondary flex items-center">
-                View Analysis
-                <ArrowRight className="ml-2 h-4 w-4" />
+              <button onClick={onViewAnalysis} className="btn btn-secondary inline-flex items-center text-xs py-2 px-4">
+                View Deep Analysis
+                <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
               </button>
             )}
           </div>

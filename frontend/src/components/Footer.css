@@ -1,0 +1,7 @@
+/* A faint dot-grid backdrop reinforces the "control hub" visual language established in the
+   Header/MovingHeader — subtle enough not to compete with the footer content. Everything
+   else is handled with Tailwind utility classes in Footer.jsx. */
+.footer-grid {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+}

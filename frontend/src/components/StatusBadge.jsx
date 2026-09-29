@@ -3,7 +3,7 @@ export default function StatusBadge({ status, type = 'default' }) {
     // Shipment statuses
     planned: { label: 'Planned', className: 'badge-info' },
     dispatched: { label: 'Dispatched', className: 'badge-warning' },
-    in_transit: { label: 'In Transit', className: 'bg-blue-100 text-blue-700' },
+    in_transit: { label: 'In Transit', className: 'bg-blue-50 text-blue-700 border border-blue-200/60' },
     delivered: { label: 'Delivered', className: 'badge-success' },
     delayed: { label: 'Delayed', className: 'badge-danger' },
     at_risk: { label: 'At Risk', className: 'badge-warning' },
@@ -21,18 +21,18 @@ export default function StatusBadge({ status, type = 'default' }) {
     
     // Health statuses
     healthy: { label: 'Healthy', className: 'badge-success' },
-    warning: { label: 'Warning', className: 'badge-warning' },
+    warning: { label: 'Needs Attention', className: 'badge-warning' },
     
     // Inventory
-    overstock: { label: 'Overstock', className: 'bg-purple-100 text-purple-700' },
+    overstock: { label: 'Overstock', className: 'bg-purple-50 text-purple-700 border border-purple-200/60' },
     
     // Priority
     urgent: { label: 'Urgent', className: 'badge-danger' },
     standard: { label: 'Standard', className: 'badge-info' },
-    economy: { label: 'Economy', className: 'bg-gray-100 text-gray-700' },
+    economy: { label: 'Economy', className: 'bg-slate-100 text-slate-700 border border-slate-200/60' },
   };
 
-  const config = statusConfig[status?.toLowerCase()] || statusConfig.normal;
+  const config = statusConfig[status?.toLowerCase()] || { label: status || 'Normal', className: 'badge-info' };
 
   return (
     <span className={`badge ${config.className}`}>
